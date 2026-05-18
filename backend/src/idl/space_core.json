@@ -1,0 +1,4259 @@
+{
+  "address": "DKRg9skUuewV1wdbVD6tpnoHtbWWy2Chq7EKdpPRY6Eh",
+  "metadata": {
+    "name": "space_core",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Core prediction market program for Space"
+  },
+  "instructions": [
+    {
+      "name": "add_approved_oracle",
+      "discriminator": [
+        73,
+        139,
+        10,
+        201,
+        75,
+        253,
+        145,
+        51
+      ],
+      "accounts": [
+        {
+          "name": "oracle_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  97,
+                  99,
+                  108,
+                  101,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "oracle",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "add_market_outcome",
+      "docs": [
+        "Add a new outcome to an existing market (per-outcome NO model only)",
+        "Space for up to 10 outcomes is pre-allocated in the Market account",
+        "remaining_accounts: [yes_mint, no_mint, creator, token_program, system_program]"
+      ],
+      "discriminator": [
+        224,
+        235,
+        136,
+        233,
+        21,
+        241,
+        125,
+        169
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "burn_shares",
+      "discriminator": [
+        98,
+        168,
+        88,
+        31,
+        217,
+        221,
+        191,
+        214
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "yes_mint",
+          "writable": true
+        },
+        {
+          "name": "no_mint",
+          "docs": [
+            "NO mint: validated in instruction body (per-outcome PDA or shared)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "user_yes_account",
+          "writable": true
+        },
+        {
+          "name": "user_no_account",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancel_no_sell_order",
+      "discriminator": [
+        219,
+        211,
+        227,
+        94,
+        32,
+        162,
+        127,
+        71
+      ],
+      "accounts": [
+        {
+          "name": "pending_order",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_no_account",
+          "writable": true
+        },
+        {
+          "name": "share_escrow_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "share_escrow_no",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  110,
+                  111
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "position",
+          "docs": [
+            "Position account (required for leveraged close orders to restore shares/collateral/debt)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancel_order",
+      "discriminator": [
+        95,
+        129,
+        237,
+        240,
+        8,
+        49,
+        223,
+        132
+      ],
+      "accounts": [
+        {
+          "name": "pending_order",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "order_escrow_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "order_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancel_sell_order",
+      "discriminator": [
+        35,
+        49,
+        106,
+        38,
+        91,
+        127,
+        157,
+        20
+      ],
+      "accounts": [
+        {
+          "name": "pending_order",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_yes_account",
+          "writable": true
+        },
+        {
+          "name": "share_escrow_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "share_escrow_yes",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "position",
+          "docs": [
+            "Position account (required for leveraged close orders to restore shares/collateral/debt)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "challenge_resolution",
+      "discriminator": [
+        5,
+        230,
+        48,
+        100,
+        46,
+        252,
+        35,
+        119
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "challenger",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "challenger_usdc",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "bond_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "close_leveraged_position",
+      "docs": [
+        "Close a leveraged position by placing a market sell order.",
+        "This properly sells shares on the market instead of burning them,",
+        "maintaining proper invariants and ensuring debt is repaid from actual sale proceeds.",
+        "",
+        "Flow:",
+        "1. Create a sell order for the user's leveraged shares at market price",
+        "2. Escrow the shares (transfer to share_escrow)",
+        "3. Mark order as leveraged_close with debt info",
+        "4. When order is matched/filled, execute_seller_match will:",
+        "- Repay borrowed_amount to liquidity_vault from sale proceeds",
+        "- Return remaining proceeds (profit/loss) to user",
+        "- Update position accordingly"
+      ],
+      "discriminator": [
+        125,
+        117,
+        120,
+        40,
+        110,
+        215,
+        240,
+        161
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "position",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pending_order",
+          "docs": [
+            "The sell order to be created for this leveraged close"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_share_account",
+          "docs": [
+            "User's token account for the shares being sold (YES or NO based on outcome_id)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "share_escrow_authority",
+          "docs": [
+            "Share escrow authority PDA"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "share_escrow",
+          "docs": [
+            "Share escrow for the shares being sold"
+          ],
+          "writable": true
+        },
+        {
+          "name": "share_mint",
+          "docs": [
+            "The mint for the shares being sold"
+          ],
+          "writable": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        },
+        {
+          "name": "shares_to_close",
+          "type": "u64"
+        },
+        {
+          "name": "min_price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "close_position",
+      "docs": [
+        "Close a position (for finalized markets or non-leveraged positions only).",
+        "For active markets with leverage, use close_leveraged_position instead."
+      ],
+      "discriminator": [
+        123,
+        134,
+        81,
+        0,
+        49,
+        68,
+        98,
+        98
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "position",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "yes_mint",
+          "writable": true
+        },
+        {
+          "name": "no_mint",
+          "writable": true
+        },
+        {
+          "name": "user_yes_account",
+          "writable": true
+        },
+        {
+          "name": "user_no_account",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "margin_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  103,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "margin_vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  103,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "liquidity_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  113,
+                  117,
+                  105,
+                  100,
+                  105,
+                  116,
+                  121,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "liquidity_vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  113,
+                  117,
+                  105,
+                  100,
+                  105,
+                  116,
+                  121,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "convert_shares",
+      "docs": [
+        "Convert NO shares to YES shares of a target outcome (1:1).",
+        "Per Space docs: NO shares are fungible across outcomes.",
+        "Burning NO is equivalent to gaining YES exposure on a different outcome."
+      ],
+      "discriminator": [
+        38,
+        55,
+        152,
+        2,
+        231,
+        47,
+        144,
+        98
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "no_mint",
+          "docs": [
+            "NO mint: validated in instruction body"
+          ],
+          "writable": true
+        },
+        {
+          "name": "to_yes_mint",
+          "writable": true
+        },
+        {
+          "name": "no_account",
+          "writable": true
+        },
+        {
+          "name": "to_yes_account",
+          "writable": true
+        },
+        {
+          "name": "mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "to_outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "execute_no_buyer_match",
+      "discriminator": [
+        71,
+        224,
+        62,
+        224,
+        39,
+        2,
+        65,
+        19
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "match_state",
+          "writable": true
+        },
+        {
+          "name": "buy_order",
+          "writable": true
+        },
+        {
+          "name": "keeper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "buy_order_escrow",
+          "writable": true
+        },
+        {
+          "name": "sell_share_escrow_no",
+          "writable": true
+        },
+        {
+          "name": "no_mint",
+          "writable": true
+        },
+        {
+          "name": "buy_user_outcome_account",
+          "writable": true
+        },
+        {
+          "name": "buy_position",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true
+        },
+        {
+          "name": "margin_vault",
+          "writable": true
+        },
+        {
+          "name": "liquidity_vault",
+          "writable": true
+        },
+        {
+          "name": "buy_order_escrow_authority"
+        },
+        {
+          "name": "sell_share_escrow_authority"
+        },
+        {
+          "name": "vault_authority"
+        },
+        {
+          "name": "margin_vault_authority"
+        },
+        {
+          "name": "liquidity_vault_authority"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "execute_seller_match",
+      "discriminator": [
+        30,
+        231,
+        5,
+        193,
+        131,
+        99,
+        43,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "match_state",
+          "writable": true
+        },
+        {
+          "name": "sell_order",
+          "writable": true
+        },
+        {
+          "name": "keeper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "sell_share_escrow_yes",
+          "writable": true
+        },
+        {
+          "name": "sell_share_escrow_no",
+          "writable": true
+        },
+        {
+          "name": "sell_user_usdc_account",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true
+        },
+        {
+          "name": "sell_share_escrow_authority"
+        },
+        {
+          "name": "vault_authority"
+        },
+        {
+          "name": "liquidity_vault",
+          "writable": true
+        },
+        {
+          "name": "liquidity_vault_authority"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "execute_yes_buyer_match",
+      "discriminator": [
+        32,
+        198,
+        252,
+        37,
+        35,
+        138,
+        122,
+        84
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "match_state",
+          "writable": true
+        },
+        {
+          "name": "buy_order",
+          "writable": true
+        },
+        {
+          "name": "keeper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "buy_order_escrow",
+          "writable": true
+        },
+        {
+          "name": "sell_share_escrow_yes",
+          "writable": true
+        },
+        {
+          "name": "yes_mint",
+          "writable": true
+        },
+        {
+          "name": "buy_user_outcome_account",
+          "writable": true
+        },
+        {
+          "name": "buy_position",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true
+        },
+        {
+          "name": "margin_vault",
+          "writable": true
+        },
+        {
+          "name": "liquidity_vault",
+          "writable": true
+        },
+        {
+          "name": "buy_order_escrow_authority"
+        },
+        {
+          "name": "sell_share_escrow_authority"
+        },
+        {
+          "name": "vault_authority"
+        },
+        {
+          "name": "margin_vault_authority"
+        },
+        {
+          "name": "liquidity_vault_authority"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "finalize_market",
+      "discriminator": [
+        16,
+        225,
+        38,
+        28,
+        213,
+        217,
+        1,
+        247
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_config",
+      "discriminator": [
+        208,
+        127,
+        21,
+        1,
+        194,
+        190,
+        196,
+        70
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "max_global_oi",
+          "type": "u128"
+        },
+        {
+          "name": "protocol_fee_bps",
+          "type": "u64"
+        },
+        {
+          "name": "creator_fee_bps",
+          "type": "u64"
+        },
+        {
+          "name": "insurance_fee_bps",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_insurance_fund",
+      "discriminator": [
+        2,
+        239,
+        39,
+        87,
+        50,
+        28,
+        108,
+        12
+      ],
+      "accounts": [
+        {
+          "name": "insurance_fund",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  115,
+                  117,
+                  114,
+                  97,
+                  110,
+                  99,
+                  101,
+                  95,
+                  102,
+                  117,
+                  110,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "insurance_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  115,
+                  117,
+                  114,
+                  97,
+                  110,
+                  99,
+                  101,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "insurance_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  115,
+                  117,
+                  114,
+                  97,
+                  110,
+                  99,
+                  101,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "admin_usdc",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "initial_balance",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_market_core",
+      "discriminator": [
+        136,
+        111,
+        118,
+        188,
+        61,
+        2,
+        202,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "creator"
+              },
+              {
+                "kind": "arg",
+                "path": "market_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "market_id",
+          "type": "u64"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "category",
+          "type": "u8"
+        },
+        {
+          "name": "end_date",
+          "type": "i64"
+        },
+        {
+          "name": "outcome_labels",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "resolution_type",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initialize_market_vaults",
+      "discriminator": [
+        79,
+        116,
+        4,
+        9,
+        242,
+        212,
+        26,
+        84
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "creator_usdc",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "market_vault",
+          "writable": true
+        },
+        {
+          "name": "margin_vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  103,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "margin_vault",
+          "writable": true
+        },
+        {
+          "name": "liquidity_vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  113,
+                  117,
+                  105,
+                  100,
+                  105,
+                  116,
+                  121,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "liquidity_vault",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "initial_collateral",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_oracle_registry",
+      "discriminator": [
+        190,
+        92,
+        228,
+        114,
+        56,
+        71,
+        101,
+        220
+      ],
+      "accounts": [
+        {
+          "name": "oracle_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  97,
+                  99,
+                  108,
+                  101,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "liquidate_position",
+      "discriminator": [
+        187,
+        74,
+        229,
+        149,
+        102,
+        81,
+        221,
+        68
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "position",
+          "writable": true
+        },
+        {
+          "name": "insurance_fund",
+          "writable": true
+        },
+        {
+          "name": "insurance_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  115,
+                  117,
+                  114,
+                  97,
+                  110,
+                  99,
+                  101,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "liquidator_usdc",
+          "writable": true
+        },
+        {
+          "name": "liquidator",
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mark_invalid",
+      "discriminator": [
+        135,
+        90,
+        32,
+        149,
+        111,
+        81,
+        185,
+        19
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "migrate_market_v1_to_v2",
+      "discriminator": [
+        154,
+        48,
+        224,
+        216,
+        229,
+        180,
+        201,
+        97
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "docs": [
+            "fields (quote_mint, quote_decimals, version) before any Anchor-level",
+            "deserialization attempts to read them from out-of-bounds bytes on a",
+            "pre-v2 allocation. Market discriminator is validated by",
+            "Market::try_deserialize inside the handler."
+          ],
+          "writable": true
+        },
+        {
+          "name": "quote_mint",
+          "docs": [
+            "Quote mint to record on the migrated market. Caller must pass the mint",
+            "that matches the token the market's vaults were actually created with;",
+            "a mismatch will cause subsequent token transfers to fail at runtime."
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "docs": [
+            "Either the market's `creator` or `config.admin`; verified in handler",
+            "after the market struct is deserialized."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mint_shares",
+      "discriminator": [
+        24,
+        196,
+        132,
+        0,
+        183,
+        158,
+        216,
+        142
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "yes_mint",
+          "writable": true
+        },
+        {
+          "name": "no_mint",
+          "docs": [
+            "NO mint: for new markets (per-outcome NO) validated in instruction body via PDA;",
+            "for old markets validated against market.no_mint"
+          ],
+          "writable": true
+        },
+        {
+          "name": "user_yes_account",
+          "writable": true
+        },
+        {
+          "name": "user_no_account",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "place_buy_order",
+      "discriminator": [
+        47,
+        253,
+        241,
+        214,
+        167,
+        204,
+        11,
+        39
+      ],
+      "accounts": [
+        {
+          "name": "market"
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "pending_order",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "order_escrow_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "order_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        },
+        {
+          "name": "outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "leverage",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "place_no_limit_sell_order",
+      "discriminator": [
+        74,
+        4,
+        226,
+        130,
+        114,
+        45,
+        55,
+        219
+      ],
+      "accounts": [
+        {
+          "name": "market"
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pending_order",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_no_account",
+          "writable": true
+        },
+        {
+          "name": "share_escrow_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "share_escrow_no",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  110,
+                  111
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "no_mint",
+          "docs": [
+            "NO mint: validated in instruction body (per-outcome PDA or shared)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "user_position",
+          "docs": [
+            "The account will be manually verified in the instruction"
+          ]
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        },
+        {
+          "name": "outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "leverage",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "place_yes_limit_sell_order",
+      "discriminator": [
+        50,
+        74,
+        199,
+        241,
+        152,
+        120,
+        117,
+        74
+      ],
+      "accounts": [
+        {
+          "name": "market"
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pending_order",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  100,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_yes_account",
+          "writable": true
+        },
+        {
+          "name": "share_escrow_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "share_escrow_yes",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "yes_mint",
+          "writable": true
+        },
+        {
+          "name": "user_position",
+          "docs": [
+            "Can be either spot (position_type=0) or leveraged (position_type=1) position",
+            "Seeds constraint removed to allow frontend to pass the correct PDA based on which position exists",
+            "The account will be manually verified in the instruction"
+          ]
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_id",
+          "type": "u64"
+        },
+        {
+          "name": "outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "leverage",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "redeem_shares",
+      "docs": [
+        "Redeem winning shares after market finalization"
+      ],
+      "discriminator": [
+        239,
+        154,
+        224,
+        89,
+        240,
+        196,
+        42,
+        187
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "yes_mint",
+          "writable": true
+        },
+        {
+          "name": "no_mint",
+          "docs": [
+            "NO mint: validated in instruction body (per-outcome PDA or shared)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "user_yes_account",
+          "writable": true
+        },
+        {
+          "name": "user_no_account",
+          "writable": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "liquidity_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  113,
+                  117,
+                  105,
+                  100,
+                  105,
+                  116,
+                  121,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "liquidity_vault_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  105,
+                  113,
+                  117,
+                  105,
+                  100,
+                  105,
+                  116,
+                  121,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome_id",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "resolve_oracle",
+      "discriminator": [
+        88,
+        89,
+        32,
+        52,
+        205,
+        171,
+        184,
+        249
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "oracle_registry",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  97,
+                  99,
+                  108,
+                  101,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "resolver",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "winning_outcome_id",
+          "type": "u8"
+        },
+        {
+          "name": "evidence_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "validate_match",
+      "discriminator": [
+        70,
+        61,
+        97,
+        220,
+        243,
+        149,
+        93,
+        181
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "buy_order",
+          "writable": true
+        },
+        {
+          "name": "sell_order",
+          "writable": true
+        },
+        {
+          "name": "keeper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "match_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  116,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "arg",
+                "path": "buy_order_id"
+              },
+              {
+                "kind": "arg",
+                "path": "sell_order_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "buy_order_id",
+          "type": "u64"
+        },
+        {
+          "name": "sell_order_id",
+          "type": "u64"
+        },
+        {
+          "name": "match_price",
+          "type": "u64"
+        },
+        {
+          "name": "match_quantity",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "discriminator": [
+        155,
+        12,
+        170,
+        224,
+        30,
+        250,
+        204,
+        130
+      ]
+    },
+    {
+      "name": "InsuranceFund",
+      "discriminator": [
+        43,
+        134,
+        170,
+        87,
+        102,
+        16,
+        142,
+        147
+      ]
+    },
+    {
+      "name": "Market",
+      "discriminator": [
+        219,
+        190,
+        213,
+        55,
+        0,
+        227,
+        198,
+        154
+      ]
+    },
+    {
+      "name": "MatchState",
+      "discriminator": [
+        250,
+        209,
+        137,
+        70,
+        235,
+        96,
+        121,
+        216
+      ]
+    },
+    {
+      "name": "OracleRegistry",
+      "discriminator": [
+        94,
+        153,
+        19,
+        250,
+        94,
+        0,
+        12,
+        172
+      ]
+    },
+    {
+      "name": "PendingOrder",
+      "discriminator": [
+        37,
+        33,
+        135,
+        93,
+        153,
+        120,
+        206,
+        95
+      ]
+    },
+    {
+      "name": "Position",
+      "discriminator": [
+        170,
+        188,
+        143,
+        228,
+        122,
+        64,
+        247,
+        208
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidOutcomes",
+      "msg": "Bad outcomes"
+    },
+    {
+      "code": 6001,
+      "name": "MarketNotActive",
+      "msg": "Not active"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidOutcome",
+      "msg": "Bad outcome"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidPrice",
+      "msg": "Bad price"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidAmount",
+      "msg": "Bad amount"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidLeverage",
+      "msg": "Bad leverage"
+    },
+    {
+      "code": 6006,
+      "name": "InsufficientInitialLiquidity",
+      "msg": "Low liquidity"
+    },
+    {
+      "code": 6007,
+      "name": "InsufficientShares",
+      "msg": "Low shares"
+    },
+    {
+      "code": 6008,
+      "name": "InsufficientMargin",
+      "msg": "Low margin"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidOrder",
+      "msg": "Bad order"
+    },
+    {
+      "code": 6010,
+      "name": "ProtocolPaused",
+      "msg": "Paused"
+    },
+    {
+      "code": 6011,
+      "name": "PositionNotLiquidatable",
+      "msg": "Not liquidatable"
+    },
+    {
+      "code": 6012,
+      "name": "Unauthorized",
+      "msg": "Denied"
+    },
+    {
+      "code": 6013,
+      "name": "LabelTooLong",
+      "msg": "Label long"
+    },
+    {
+      "code": 6014,
+      "name": "OrderExpired",
+      "msg": "Expired"
+    },
+    {
+      "code": 6015,
+      "name": "MatchPriceOutOfBounds",
+      "msg": "Price OOB"
+    },
+    {
+      "code": 6016,
+      "name": "TokenAccountOwnershipMismatch",
+      "msg": "Owner mismatch"
+    },
+    {
+      "code": 6017,
+      "name": "TokenAccountMintMismatch",
+      "msg": "Mint mismatch"
+    },
+    {
+      "code": 6018,
+      "name": "SlippageExceeded",
+      "msg": "Slippage"
+    },
+    {
+      "code": 6019,
+      "name": "MarketAlreadyResolved",
+      "msg": "Resolved"
+    },
+    {
+      "code": 6020,
+      "name": "ChallengePeriodNotExpired",
+      "msg": "Challenge active"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidResolution",
+      "msg": "Bad resolution"
+    },
+    {
+      "code": 6022,
+      "name": "InsufficientSharesForConversion",
+      "msg": "Convert fail"
+    },
+    {
+      "code": 6023,
+      "name": "InsufficientVaultBalance",
+      "msg": "Low vault"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidPDA",
+      "msg": "Bad PDA"
+    },
+    {
+      "code": 6025,
+      "name": "AlreadyMigrated",
+      "msg": "Market already migrated to v2"
+    },
+    {
+      "code": 6026,
+      "name": "ActiveLeveragedPositionExists",
+      "msg": "Active leveraged position exists - must settle position first"
+    },
+    {
+      "code": 6027,
+      "name": "MarketNotFinalized",
+      "msg": "Not finalized"
+    },
+    {
+      "code": 6028,
+      "name": "CannotLiquidateSpot",
+      "msg": "Cannot liquidate spot position"
+    },
+    {
+      "code": 6029,
+      "name": "NoDebt",
+      "msg": "Position has no debt"
+    },
+    {
+      "code": 6030,
+      "name": "PositionTypeMismatch",
+      "msg": "Position type mismatch"
+    },
+    {
+      "code": 6031,
+      "name": "InvalidSpotLeverage",
+      "msg": "Invalid spot leverage (must be 1)"
+    },
+    {
+      "code": 6032,
+      "name": "PositionNotOpen",
+      "msg": "Position is not open"
+    },
+    {
+      "code": 6033,
+      "name": "InvalidSpotDebt",
+      "msg": "Invalid spot debt (spot positions must have 0 debt)"
+    },
+    {
+      "code": 6034,
+      "name": "CannotSellLeveragedAsSpot",
+      "msg": "Cannot sell leveraged position as spot"
+    },
+    {
+      "code": 6035,
+      "name": "CannotCloseSpotAsLeveraged",
+      "msg": "Cannot close spot position as leveraged"
+    },
+    {
+      "code": 6036,
+      "name": "AccountNotInitialized",
+      "msg": "Account not initialized"
+    }
+  ],
+  "types": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "max_global_oi",
+            "type": "u128"
+          },
+          {
+            "name": "protocol_fee_bps",
+            "type": "u64"
+          },
+          {
+            "name": "creator_fee_bps",
+            "type": "u64"
+          },
+          {
+            "name": "insurance_fee_bps",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InsuranceFund",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "balance",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "resolution_type",
+            "type": "u8"
+          },
+          {
+            "name": "num_outcomes",
+            "type": "u8"
+          },
+          {
+            "name": "outcomes",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "MarketOutcome"
+                }
+              }
+            }
+          },
+          {
+            "name": "no_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "end_date",
+            "type": "i64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "total_volume",
+            "type": "u64"
+          },
+          {
+            "name": "total_minted",
+            "type": "u64"
+          },
+          {
+            "name": "total_maker_rewards",
+            "type": "u64"
+          },
+          {
+            "name": "total_leverage_provided",
+            "type": "u64"
+          },
+          {
+            "name": "resolved_outcome",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "resolution_source",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "resolve_slot",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "evidence_hash",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "challenge_bond",
+            "type": "u64"
+          },
+          {
+            "name": "challenger",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "challenge_timestamp",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "creator_fee_bps",
+            "type": "u64"
+          },
+          {
+            "name": "is_invalid",
+            "type": "bool"
+          },
+          {
+            "name": "resolve_timestamp",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "price_snapshots",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "PriceSnapshot"
+                }
+              }
+            }
+          },
+          {
+            "name": "quote_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_decimals",
+            "type": "u8"
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketOutcome",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u8"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "last_price",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MatchState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buy_order_id",
+            "type": "u64"
+          },
+          {
+            "name": "sell_order_id",
+            "type": "u64"
+          },
+          {
+            "name": "match_price",
+            "type": "u64"
+          },
+          {
+            "name": "match_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "fill_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "trade_value",
+            "type": "u64"
+          },
+          {
+            "name": "buy_order_user",
+            "type": "pubkey"
+          },
+          {
+            "name": "sell_order_user",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome_id",
+            "type": "u8"
+          },
+          {
+            "name": "executed",
+            "type": "bool"
+          },
+          {
+            "name": "buy_executed",
+            "type": "bool"
+          },
+          {
+            "name": "sell_executed",
+            "type": "bool"
+          },
+          {
+            "name": "buy_is_maker",
+            "type": "bool"
+          },
+          {
+            "name": "sell_is_maker",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleRegistry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "approved_oracles",
+            "type": {
+              "vec": "pubkey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PendingOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome_id",
+            "type": "u8"
+          },
+          {
+            "name": "side",
+            "type": "u8"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "quantity",
+            "type": "u64"
+          },
+          {
+            "name": "filled_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "margin",
+            "type": "u64"
+          },
+          {
+            "name": "margin_used",
+            "type": "u64"
+          },
+          {
+            "name": "leverage",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "order_id",
+            "type": "u64"
+          },
+          {
+            "name": "order_type",
+            "type": "u8"
+          },
+          {
+            "name": "is_maker",
+            "type": "bool"
+          },
+          {
+            "name": "fee_paid",
+            "type": "u64"
+          },
+          {
+            "name": "is_leveraged_close",
+            "type": "bool"
+          },
+          {
+            "name": "borrowed_amount_to_repay",
+            "type": "u64"
+          },
+          {
+            "name": "collateral_to_return",
+            "type": "u64"
+          },
+          {
+            "name": "position_key",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Position",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome_id",
+            "type": "u8"
+          },
+          {
+            "name": "side",
+            "type": "u8"
+          },
+          {
+            "name": "shares",
+            "type": "u64"
+          },
+          {
+            "name": "avg_entry_price",
+            "type": "u64"
+          },
+          {
+            "name": "leverage",
+            "type": "u8"
+          },
+          {
+            "name": "collateral",
+            "type": "u64"
+          },
+          {
+            "name": "borrowed_amount",
+            "type": "u64"
+          },
+          {
+            "name": "position_type",
+            "type": "u8"
+          },
+          {
+            "name": "liquidation_price",
+            "type": "u64"
+          },
+          {
+            "name": "is_open",
+            "type": "bool"
+          },
+          {
+            "name": "token_type",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceSnapshot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

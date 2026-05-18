@@ -1,0 +1,9 @@
+[env]
+CARGO = "cargo"
+
+[net]
+offline = false
+
+[build]
+# Try to use system cargo
+rustc-wrapper = ""

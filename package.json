@@ -1,0 +1,29 @@
+{
+  "name": "space-prediction-markets",
+  "version": "1.0.0",
+  "description": "Production-ready Space prediction markets platform",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "dev": "npm run dev --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.0",
+    "chai": "^4.3.11",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^11.1.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

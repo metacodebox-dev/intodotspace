@@ -1,0 +1,59 @@
+# Render Blueprint for Space Backend
+# Deploy with: render blueprint sync
+
+services:
+  - type: web
+    name: space-backend
+    runtime: node
+    region: oregon # or singapore, frankfurt, ohio
+    plan: starter # free tier available
+    
+    # Build & Start
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    
+    # Health Check (Render uses this to know when app is ready)
+    healthCheckPath: /health
+    
+    # Environment
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      
+      # Database - Use Render PostgreSQL or external
+      - key: DATABASE_URL
+        sync: false # Set manually in dashboard
+      
+      # Redis - Use Render Redis or Upstash
+      - key: REDIS_URL
+        sync: false
+      
+      # Solana
+      - key: SOLANA_RPC_URL
+        value: https://api.devnet.solana.com
+      - key: USDC_MINT
+        value: CqdmbJnQxMNNTGZzsBhEPTSzH52Pwa5DRvpVjZ2Us92t
+      
+      # Auth
+      - key: JWT_SECRET
+        generateValue: true # Auto-generate secure secret
+      
+      # Frontend URL for CORS
+      - key: FRONTEND_URL
+        sync: false
+      
+      # Keeper (optional)
+      - key: KEEPER_KEYPAIR
+        sync: false
+
+databases:
+  - name: space-db
+    plan: starter # free tier: 1GB
+    databaseName: space_prediction
+    user: space_user
+
+# Optional: Redis
+# Note: Render Redis requires paid plan, use Upstash for free tier
