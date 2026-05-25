@@ -1,82 +1,82 @@
-// ============================================================================
-// ERRORS
-// ============================================================================
+//! Program error codes. Variant order and #[msg] strings are part of the IDL
+//! and must not change without coordinating with downstream consumers.
 
 use anchor_lang::prelude::*;
 
 #[error_code]
 pub enum SpaceError {
-    #[msg("Invalid number of outcomes (must be 2-10)")]
+    #[msg("Bad outcomes")]
     InvalidOutcomes,
-    #[msg("Market is not active")]
+    #[msg("Not active")]
     MarketNotActive,
-    #[msg("Invalid outcome ID")]
+    #[msg("Bad outcome")]
     InvalidOutcome,
-    #[msg("Invalid price (must be 1-10000 basis points)")]
+    #[msg("Bad price")]
     InvalidPrice,
-    #[msg("Invalid amount")]
+    #[msg("Bad amount")]
     InvalidAmount,
-    #[msg("Invalid leverage (must be 1-10)")]
+    #[msg("Bad leverage")]
     InvalidLeverage,
-    #[msg("Insufficient initial liquidity")]
+    #[msg("Low liquidity")]
     InsufficientInitialLiquidity,
-    #[msg("Insufficient shares")]
+    #[msg("Low shares")]
     InsufficientShares,
-    #[msg("Insufficient margin")]
+    #[msg("Low margin")]
     InsufficientMargin,
-    #[msg("Invalid order")]
+    #[msg("Bad order")]
     InvalidOrder,
-    #[msg("Protocol is paused")]
+    #[msg("Paused")]
     ProtocolPaused,
-    #[msg("Oracle not approved")]
-    InvalidOracle,
-    #[msg("Oracle already exists")]
-    OracleAlreadyExists,
-    #[msg("Too many oracles")]
-    TooManyOracles,
-    #[msg("Market not in resolving state")]
-    MarketNotResolving,
-    #[msg("Challenge period still active")]
-    ChallengePeriodActive,
-    #[msg("Challenge period has ended")]
-    ChallengePeriodEnded,
-    #[msg("Insufficient challenge bond")]
-    InsufficientChallengeBond,
-    #[msg("Market not finalized")]
-    MarketNotFinalized,
-    #[msg("Invalid market status")]
-    InvalidMarketStatus,
-    #[msg("Invalid resolution type")]
-    InvalidResolutionType,
-    #[msg("Market has not ended")]
-    MarketNotEnded,
-    #[msg("Insufficient TWAP samples")]
-    InsufficientTwapSamples,
-    #[msg("Price change exceeded maximum")]
-    PriceChangeExceeded,
-    #[msg("Slippage exceeded")]
-    SlippageExceeded,
-    #[msg("Position not liquidatable")]
+    #[msg("Not liquidatable")]
     PositionNotLiquidatable,
-    #[msg("Unauthorized")]
+    #[msg("Denied")]
     Unauthorized,
-    #[msg("Token account ownership mismatch")]
-    TokenAccountOwnershipMismatch,
-    #[msg("Token account mint mismatch")]
-    TokenAccountMintMismatch,
-    #[msg("Insufficient vault balance")]
-    InsufficientVaultBalance,
-    #[msg("Outcome label too long (max 100 chars)")]
+    #[msg("Label long")]
     LabelTooLong,
-    #[msg("Invalid resolution state")]
-    InvalidResolution,
-    #[msg("Challenge period has not expired")]
+    #[msg("Expired")]
+    OrderExpired,
+    #[msg("Price OOB")]
+    MatchPriceOutOfBounds,
+    #[msg("Owner mismatch")]
+    TokenAccountOwnershipMismatch,
+    #[msg("Mint mismatch")]
+    TokenAccountMintMismatch,
+    #[msg("Slippage")]
+    SlippageExceeded,
+    #[msg("Resolved")]
+    MarketAlreadyResolved,
+    #[msg("Challenge active")]
     ChallengePeriodNotExpired,
+    #[msg("Bad resolution")]
+    InvalidResolution,
+    #[msg("Convert fail")]
+    InsufficientSharesForConversion,
+    #[msg("Low vault")]
+    InsufficientVaultBalance,
+    #[msg("Bad PDA")]
+    InvalidPDA,
+    #[msg("Market already migrated to v2")]
+    AlreadyMigrated,
     #[msg("Active leveraged position exists - must settle position first")]
     ActiveLeveragedPositionExists,
-    #[msg("Invalid PDA derivation")]
-    InvalidPDA,
+    #[msg("Not finalized")]
+    MarketNotFinalized,
+    #[msg("Cannot liquidate spot position")]
+    CannotLiquidateSpot,
+    #[msg("Position has no debt")]
+    NoDebt,
+    #[msg("Position type mismatch")]
+    PositionTypeMismatch,
+    #[msg("Invalid spot leverage (must be 1)")]
+    InvalidSpotLeverage,
+    #[msg("Position is not open")]
+    PositionNotOpen,
+    #[msg("Invalid spot debt (spot positions must have 0 debt)")]
+    InvalidSpotDebt,
+    #[msg("Cannot sell leveraged position as spot")]
+    CannotSellLeveragedAsSpot,
+    #[msg("Cannot close spot position as leveraged")]
+    CannotCloseSpotAsLeveraged,
+    #[msg("Account not initialized")]
+    AccountNotInitialized,
 }
-
-
-

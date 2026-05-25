@@ -1,6 +1,5 @@
-// ============================================================================
-// ENUMS
-// ============================================================================
+//! On-chain enums stored as u8 in account fields. Discriminant values are
+//! part of the wire format — do not reorder.
 
 use anchor_lang::prelude::*;
 
@@ -22,12 +21,20 @@ pub enum OrderStatus {
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq)]
-pub enum ResolutionType {
-    Deterministic = 0, // TWAP-based for crypto markets
-    Oracle = 1,        // Multisig oracle for other markets
+pub enum OrderType {
+    Limit = 0,
+    Market = 1,
 }
 
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq)]
+pub enum ResolutionType {
+    TWAP = 0,
+    Oracle = 1,
+    Manual = 2,
+}
 
-
-
-
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq)]
+pub enum PositionType {
+    Spot = 0,
+    Leveraged = 1,
+}

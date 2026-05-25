@@ -1,6 +1,4 @@
-// ============================================================================
-// CONFIG STATE
-// ============================================================================
+//! Singleton protocol accounts: Config, OracleRegistry, InsuranceFund.
 
 use anchor_lang::prelude::*;
 
@@ -35,22 +33,3 @@ pub struct InsuranceFund {
 impl InsuranceFund {
     pub const LEN: usize = 8;
 }
-
-#[account]
-pub struct TwapState {
-    pub market: Pubkey,
-    pub total_price_time: u64,
-    pub total_time: u64,
-    pub sample_count: u64,
-    pub last_price: u64,
-    pub last_timestamp: i64,
-}
-
-impl TwapState {
-    pub const LEN: usize = 32 + 8 + 8 + 8 + 8 + 8;
-}
-
-
-
-
-
